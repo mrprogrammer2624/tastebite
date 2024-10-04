@@ -4,6 +4,8 @@ import { AuthLayout, DashboardLayout } from "@/layouts";
 /* */
 import { ForgotPassword, Login, Otp, SignUp } from "@/pages/Authentication";
 import { PasswordUpdateSuccess } from "@/components/Authentication/PasswordUpdate";
+import { DashboardData } from "@/constants";
+import { AddRecipe, Dashboard } from "@/pages/Admin";
 
 /* */
 
@@ -14,23 +16,16 @@ const TaskPilotRoute = createBrowserRouter(
       path: "/",
       children: [
         {
-          element: <DashboardLayout />,
+          path: "/admin",
+          element: <DashboardLayout items={DashboardData} />,
           children: [
             {
-              index: true,
-              element: "home",
+              path: "dashboard",
+              element: <Dashboard />,
             },
             {
-              path: "contactus",
-              element: "contactus",
-            },
-            {
-              path: "aboutus",
-              element: "aboutus",
-            },
-            {
-              path: "blog-upload",
-              element: "blog-upload",
+              path: "add-recipe",
+              element: <AddRecipe />,
             },
           ],
         },

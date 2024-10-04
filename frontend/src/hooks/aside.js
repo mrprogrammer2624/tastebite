@@ -7,8 +7,11 @@ export const Aside = () => {
 
   useEffect(() => {
     switch (location.pathname) {
-      case "/":
-        setCurrentPage("/");
+      case "/admin/dashboard":
+        setCurrentPage("admin//dashboard");
+        break;
+      case "/admin/add-recipe":
+        setCurrentPage("/admin/add-recipe");
         break;
       case "/settings":
         setCurrentPage("/settings");

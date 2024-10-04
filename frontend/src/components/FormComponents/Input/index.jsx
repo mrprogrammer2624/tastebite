@@ -1,6 +1,7 @@
 import { Input as AntdInput } from "antd";
 import clsx from "clsx";
 import styles from "./Input.module.css";
+import { Icons } from "@/constants";
 
 export const Input = ({
   id,
@@ -25,10 +26,7 @@ export const Input = ({
   return (
     <div className={clsx(parentClassName, "position-relative")}>
       {label && (
-        <label
-          htmlFor={id}
-          className={clsx(styles.label, labelClassName, "position-absolute")}
-        >
+        <label htmlFor={id} className={clsx(styles.label, labelClassName, "")}>
           {label}
         </label>
       )}
@@ -135,6 +133,62 @@ export const InputOtp = ({
         placeholder={placeholder}
         status={isInvalid && "error"}
         mask={mask}
+        {...rest}
+      />
+      {errorMessage && (
+        <div className={clsx(styles.errorMessage)}>{errorMessage}</div>
+      )}
+    </div>
+  );
+};
+
+const { TextArea } = AntdInput;
+export const TextAreas = ({
+  id,
+  label,
+  value,
+  suffix,
+  prefix,
+  autoSize,
+  onChange,
+  disabled,
+  isInvalid,
+  className,
+  rows = 5,
+  allowClear = true,
+  placeholder,
+  errorMessage,
+  parentClassName,
+  labelClassName,
+  ...rest
+}) => {
+  return (
+    <div className={clsx(parentClassName)}>
+      {label && (
+        <label htmlFor={id} className={clsx(styles.label, labelClassName)}>
+          {label}
+        </label>
+      )}
+      <TextArea
+        placeholder={placeholder}
+        id={id}
+        value={value}
+        disabled={disabled}
+        onChange={onChange}
+        className={clsx(styles.input, styles.textArea, className)}
+        status={isInvalid && "error"}
+        prefix={prefix}
+        suffix={suffix}
+        autoSize={autoSize}
+        minLength={5}
+        rows={rows}
+        allowClear={
+          allowClear && {
+            clearIcon: (
+              <span className="clr-black d-flex"> {Icons.CloseCircle} </span>
+            ),
+          }
+        }
         {...rest}
       />
       {errorMessage && (

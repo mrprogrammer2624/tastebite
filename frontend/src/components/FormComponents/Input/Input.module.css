@@ -8,16 +8,10 @@ input[type="number"]::-webkit-outer-spin-button {
   width: fit-content;
   color: var(--clr-primary);
   font-weight: 500;
-  font-size: var(--text-sm);
-  left: var(--space-lg);
-  top: 7px;
-  z-index: 2;
+  font-size: var(--text-md);
   text-transform: capitalize;
-}
-
-.label + .inputWrap,
-.label + .input {
-  padding: var(--space-2xl) var(--space-lg) var(--space-sm);
+  padding-left: var(--space-sm);
+  margin-bottom: var(--space-sm);
 }
 
 .label + .input:global.ant-input-affix-wrapper .ant-input-suffix,
@@ -129,8 +123,6 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .textArea {
   overflow: hidden;
-  border-color: var(--clr-gray-line);
-  border-radius: var(--space-md);
 }
 
 .input.textArea :global textarea.ant-input {
@@ -144,6 +136,7 @@ input[type="number"]::-webkit-outer-spin-button {
 .inputOtp :global .ant-otp.ant-otp-lg .ant-otp-input {
   width: 6rem;
 }
+
 .inputOtp :global .ant-otp.ant-otp-lg .ant-otp-input:focus {
   box-shadow: none;
 }
