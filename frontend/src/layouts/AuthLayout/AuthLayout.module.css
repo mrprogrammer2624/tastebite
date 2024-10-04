@@ -1,0 +1,6 @@
+.AuthWrapper {
+  max-width: 445px;
+  margin: auto;
+  width: 100%;
+  padding: var(--space-2xl);
+}
