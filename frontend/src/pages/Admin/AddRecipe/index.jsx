@@ -1,8 +1,8 @@
 import { useState } from "react";
 import clsx from "clsx";
-import { Button, Input, TextAreas } from "@/components";
-import { ProfilePicUploader } from "@/components/FormComponents/ProfilePicUploader";
+import { Button, Input, Select, TextAreas } from "@/components";
 import styles from "./AddRecipe.module.css";
+import { cuisineOptions } from "@/constants";
 
 export const AddRecipe = () => {
   const [recipeData, setRecipeData] = useState({
@@ -11,19 +11,13 @@ export const AddRecipe = () => {
     instructions: "",
     cuisineType: "",
     cookingTime: "",
-    previewImage: "",
   });
 
-  const handleImageChange = (imageData) => {
-    setRecipeData((prevData) => ({ ...prevData, previewImage: imageData }));
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleChange = (name, value) => {
     setRecipeData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formattedRecipeData = {
       ...recipeData,
@@ -31,8 +25,31 @@ export const AddRecipe = () => {
       cookingTime: parseInt(recipeData.cookingTime, 10),
     };
 
-    console.log(formattedRecipeData);
-    // Here you can send formattedRecipeData to another page or API
+    try {
+      const response = await fetch("/api/recipes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formattedRecipeData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      console.log("Success:", data);
+      setRecipeData({
+        title: "",
+        ingredients: "",
+        instructions: "",
+        cuisineType: "",
+        cookingTime: "",
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -41,47 +58,46 @@ export const AddRecipe = () => {
         className={clsx(styles.AddRecipe, "d-flex flex-column")}
         onSubmit={handleSubmit}
       >
-        <ProfilePicUploader
-          id="fileUpload"
-          onChange={handleImageChange}
-          previewImage={recipeData.previewImage}
-        />
         <Input
           type="text"
           label={"Title"}
           placeholder={"Title"}
           name="title"
           value={recipeData.title}
-          onChange={handleChange}
+          onChange={(e) => handleChange("title", e.target.value)}
         />
         <TextAreas
           label={"Ingredients (one per line)"}
           placeholder={"Ingredients (one per line)"}
           name="ingredients"
           value={recipeData.ingredients}
-          onChange={handleChange}
+          onChange={(e) => handleChange("ingredients", e.target.value)}
         />
         <TextAreas
           label={"Instructions"}
           placeholder={"Instructions"}
           name="instructions"
           value={recipeData.instructions}
-          onChange={handleChange}
+          onChange={(e) => handleChange("instructions", e.target.value)}
         />
-        <TextAreas
+
+        <Select
+          id="cuisineType"
           label={"Cuisine Type"}
-          placeholder={"Cuisine Type"}
           name="cuisineType"
           value={recipeData.cuisineType}
-          onChange={handleChange}
+          onChange={(value) => handleChange("cuisineType", value)} // Pass value directly
+          options={cuisineOptions}
+          required
         />
+
         <Input
           type="number"
           label={"Cooking Time (minutes)"}
           placeholder={"Cooking Time (minutes)"}
           name="cookingTime"
           value={recipeData.cookingTime}
-          onChange={handleChange}
+          onChange={(e) => handleChange("cookingTime", e.target.value)}
         />
         <Button className={"me-auto"} variant={"primary"} type="submit">
           Submit
